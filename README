@@ -1,0 +1,3 @@
+Aero from Windows Vista and 7 using CSS 3 only for visuals (buttons, windows, menus) (and to be nice to IE, filters for them).  Javascript is added in for click interactivity that CSS cannot provide, such as triggering a select all or posting date-timestamps.
+
+Progressively enhances as you use Webkit-based (Safari, Chrome) and recent Gecko-based (Firefox) browsers.  Looks a tad plainer on browsers without as much CSS support, like Camino, Opera, and Internet Explorer.
