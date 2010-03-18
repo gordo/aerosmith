@@ -1,0 +1,762 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Gordon Mei" />
+	<title>Aero Smith - Studio Gordon Mei - Labs</title>
+
+	<style type="text/css">
+	* {margin:0; padding:0;}
+	
+	body {margin:2em auto; width:760px; background:#000 url(aurorablue1600x1120.jpg) top left no-repeat;}
+	
+	#bar {
+		position:relative;
+		background-color:#333;
+		background:-webkit-gradient(linear, 70% 0%, 0% 100%, from(#666), to(#666), color-stop(.6,#333),color-stop(.4,#444),color-stop(.2,#333),color-stop(0,#666));
+		background:-moz-linear-gradient(0% 100% 23deg,#666, #333, #444 50%,#333 70%,#666 100%);
+		opacity:0.9;
+		-ms-filter:"alpha(opacity=90)"; /* IE 8 */
+		filter:alpha(opacity=90); /* IE 4-7 */
+		zoom:1; /* set "zoom", "width" or "height" to trigger "hasLayout" in IE 7 and lower */ 
+		/* height:40px; */
+		width:100%;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		border-width:1px 0 0 0;
+		border-style:solid;
+		border-color:#ccc;
+		}
+	
+	#close {
+		position:absolute;
+		top:0;
+		right:10px;
+		background-color:#a23c26;
+		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#d1988f), to(#bf7866), color-stop(.6,#a23c26));
+		background:-moz-linear-gradient(0% 100% 90deg,#d1988f, #a23c26, #bf7866 84%);
+		filter:progid:DXImageTransform.Microsoft.gradient(enabled='false', startColorstr=#d1988f, endColorstr=#a23c26);
+		height:30px;
+		width:85px;
+		line-height:30px;
+		text-align:center;
+		-webkit-border-bottom-right-radius: 8px;
+		-moz-border-radius-bottomright: 8px;
+		border-bottom-right-radius: 8px;
+		border-width:0 2px 2px 2px;
+		border-style:groove;
+		border-color:#fff #fff #fff #999;
+	}
+	
+	#close:hover, #maximize:hover, #minimize:hover, #maximize:hover #maxmarkfaux {
+		box-shadow:0px 0px 9px #fff, 0px 0px 9px #fff;
+		-webkit-box-shadow:#fff 0px 0px 9px #fff, 0px 0px 9px #fff;
+		-moz-box-shadow:0px 0px 9px #fff, 0px 0px 9px #fff;
+		cursor:pointer;
+	}
+	
+	#close:hover {background-color:#d1988f;}
+	#maximize:hover, #minimize:hover {background-color:#666;}
+	
+	#xmark, #maxmark, #minmark {
+		cursor:pointer;
+		padding:2px;
+		color:#fff;
+		font-family:verdana,helvetica,arial,sans-serif;
+		font-weight:bold;
+		font-size:26px;
+	}
+	
+	#xmark {
+		text-shadow:0px -1px 1px #333, 0px 1px 1px #333;
+	}
+	
+	#maxmark, #minmark {
+		text-shadow:0px -1px 3px #333, 0px 1px 3px #333;
+	}
+	
+	#minmark {
+		padding-bottom:12px !important;
+		padding-top:0 !important;
+		font-size:18px !important;
+	}
+	
+	#close:hover #xmark, #maximize:hover #maxmark, #minimize:hover #minmark, #xmark:hover, #maxmark:hover, #minmark:hover, #maxmarkfaux:hover {
+		cursor:pointer;
+		text-shadow:0px -1px 7px #fff, 0px 1px 7px #fff;
+	}
+	
+	#maximize:hover #maxmarkfaux {
+		border:1px solid #fff;
+	}
+	
+	#maxmarkfaux {
+		cursor:pointer;
+		margin:7px auto 5px auto;
+		width:16px;
+		height:16px;
+		border:1px solid #555;
+	}
+	
+	#maxmarkfauxinner {
+		width:12px;
+		height:12px;
+		border:2px solid #fff;
+	}
+	
+	#maximize {
+		position:absolute;
+		top:0;
+		right:99px;
+		background-color:#333;
+		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#b9bfbf), to(#989ead), color-stop(.6,#555861),color-stop(.9,#71767c));
+		background:-moz-linear-gradient(19% 100% 90deg,#666, #333, #666 100%);
+		color:#fff;
+		text-shadow:0px -1px 1px #333, 0px 1px 1px #333;
+		height:30px;
+		width:50px;
+		line-height:30px;
+		text-align:center;
+		border-width:0 2px 2px 2px;
+		border-style:groove;
+		border-color:#fff #fff #fff #fff;
+	}
+	
+	#minimize {
+		position:absolute;
+		top:0;
+		right:152px;
+		background-color:#333;
+		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#b9bfbf), to(#989ead), color-stop(.6,#555861),color-stop(.9,#71767c));
+		background:-moz-linear-gradient(19% 100% 90deg,#666, #333, #666 100%);
+		color:#fff;
+		text-shadow:0px -1px 1px #333, 0px 1px 1px #333;
+		font-family:verdana,helvetica,arial,sans-serif;
+		font-weight:bold;
+		font-size:26px;
+		height:30px;
+		width:55px;
+		line-height:30px;
+		text-align:center;
+		-webkit-border-bottom-left-radius: 8px;
+		-moz-border-radius-bottomleft: 8px;
+		border-bottom-left-radius: 8px;
+		border-width:0 2px 2px 2px;
+		border-style:groove;
+		border-color:#fff #999 #fff #fff;
+	}
+	
+	.titlebartext {
+		font-family:"Segoe UI","Frutiger Linotype",helvetica,arial,sans-serif;
+		font-weight:normal;
+		font-size:24px;
+		line-height:40px;
+		text-indent:1em;
+		color:#111;
+		text-shadow:0 0 5px #fff, 0px 0 5px #fff;
+		vertical-align:middle;
+		<!--[if lte IE 8]>
+		-ms-filter:"progid:DXImageTransform.Microsoft.Glow(color=#aaaaaa, strength=3)";
+		filter:progid:DXImageTransform.Microsoft.Glow(color=#aaaaaa, strength=3);
+		<![endif]-->
+	}
+
+	#windowframe {
+		background-color:#333;
+		background:-webkit-gradient(linear, 70% 0%, 0% 100%, from(#666666), to(#666666), color-stop(.6,#333333),color-stop(.4,#444444),color-stop(.2,#333333),color-stop(0,#666666));
+		background:-moz-linear-gradient(0% 100% 23deg,#666666, #333333, #444444 50%,#333333 70%,#666666 100%);
+		opacity:0.9;
+		-ms-filter:"alpha(opacity=90)"; /* IE 8 */
+		filter:alpha(opacity=90); /* IE 4-7 */
+		zoom:1; /* set "zoom", "width" or "height" to trigger "hasLayout" in IE 7 and lower */ 
+		/* height:300px; */
+		/* width:100%; */
+		-webkit-border-bottom-left-radius:8px;
+		-moz-border-radius-bottomleft:8px;
+		border-bottom-left-radius: 8px;	
+		-webkit-border-bottom-right-radius:8px;
+		-moz-border-radius-bottomright:8px;
+		border-bottom-right-radius:8px;	
+		/* border-width:1px 0 0 0; */
+		border-width:0;
+		border-style:solid;
+		border-color:#aaa;
+		padding:0 4px 4px 4px;
+		}
+		
+	#window {
+		margin:0 auto;
+		background-color:#fff;
+		/* height:295px; */
+		/* width:750px; */
+		/* width:100%; */
+		border:3px double #ccc;
+	}
+	
+	#filemenu {
+		background-color:#e2e7f8;
+		background:-webkit-gradient(linear, 0% 19%, 0% 60%, from(#fff), to(#e2e7f8), color-stop(.6,#d5dbef));
+		background:-moz-linear-gradient(0% 95% 90deg,#e2e7f8, #d5dbef, #fff 85%);
+		padding-left:1em;
+	}
+		
+	li.menuitem, li.menuitem a {
+		display:inline;
+		font-family:"Segoe UI","Frutiger Linotype",helvetica,arial,sans-serif;
+		font-weight:normal;
+		font-size:20px;
+		line-height:30px;
+		color:#000;
+		text-decoration:none;
+		padding-right:0.3em;
+	}
+	
+	li.menuitem {
+		padding:5px 0;
+	}
+		
+	li.menuitem ul {
+		display:none;
+		position:absolute;
+		top:73px;
+		left:0;
+		list-style:none;
+		margin-left:1em;
+		padding:0.3em 0 0 0;	
+		border:1px solid #eee;
+		border-top:0 !important;
+		background-color:#fff;
+	}
+	
+	li.menuitem:hover ul {
+		display:block;
+	}
+	
+	li.menuitem ul#edit {margin-left:65px;}
+	li.menuitem ul#format {margin-left:110px;}
+	li.menuitem ul#view {margin-left:185px;}
+	li.menuitem ul#help {margin-left:240px;}		
+
+	li.menuitem ul li {
+		display:block;
+		width:100%;
+	}
+
+	li.menuitem ul li a {
+		padding:0 1em;
+	}
+
+	li.menuitem ul li:hover {
+		background-color:#eee;
+	}
+
+	li.menuitem ul li.divider {
+		border-top:1px solid #eee;
+	}
+	
+	.checked {
+		margin-right:-0.7em;
+		margin-left:0.2em;
+		font-size:0.8em;
+		color:#100a88;
+		border:1px solid #eee;
+		padding:0 4px;
+	}
+
+	.unchecked {
+		margin-right:-0.7em;
+		margin-left:0.2em;
+		font-size:0.8em;
+		color:#fff;
+		border:1px solid #fff;
+		padding:0 4px;
+	}
+
+	li.menuitem ul li:hover .unchecked {
+		border-color:#eee;
+		color:#eee;
+	}
+
+	.disabled a {
+		color:#999 !important;
+	}
+
+	#textycontained {
+		padding:4px 0 4px 4px;
+	}
+	
+	#window textarea {
+		/* width:734px; */
+		/* height:255px; */
+		width:100%;
+		border:0;
+		font:normal 12pt monaco,consolas,monospace;
+		/* padding:4px 8px; */
+		height:300px;
+		<!--[if IE]>
+		scrollbar-face-color:#eee; 
+		scrollbar-shadow-color:#bbb;
+		scrollbar-highlight-color:#eee; 
+		scrollbar-3dlight-color:#bbb;
+		scrollbar-darkshadow-color:#eee; 
+		scrollbar-track-color:#eee;
+		scrollbar-arrow-color:#bbb;
+		<![endif]-->
+	}
+	
+	#window textarea:focus {
+		outline:0;
+	}
+	
+	/*
+	.candywrappers {
+		white-space:nowrap;
+		overflow-x:auto;
+	}
+
+	.nocandywrappers {
+		white-space:pre;
+		overflow-x:hidden;
+	}
+	*/
+	
+	#statusbar {
+		display:none;
+		font-family:"Segoe UI",helvetica,arial,sans-serif;
+		background-color:#eee;
+		border-top:1px solid #ccc;
+		font-size:16px;
+		padding:2px 1em 2px 0;
+		line-height:20px;
+		height:20px;
+		text-align:right;
+	}
+
+	#sosumi {margin:1em 0 1em 1em; font:normal 10pt "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue","Helvetica","Arial",sans-serif; font-weight:300;}
+	#sosumi a {font-size:10pt;}
+	#sosumi a:link, #sosumi a:visited, #sosumi a:focus, #sosumi a:active {color:#555;}
+	#sosumi a:hover {color:#111; text-decoration:line-through;}
+	
+	#warning {
+		display:none;
+		position:absolute;
+		top:1.7em;
+		margin:0 auto;
+		width:760px;
+		height:390px;
+		color:#fff;
+		background-color:#111;
+		opacity:0.8;
+		-ms-filter:"alpha(opacity=80)"; /* IE 8 */
+		filter:alpha(opacity=80); /* IE 4-7 */
+		zoom:1; /* set "zoom", "width" or "height" to trigger "hasLayout" in IE 7 and lower */
+		font-size:14pt;
+		text-align:center;
+		-webkit-border-radius:8px;
+		-moz-border-radius:8px;
+		border-radius:8px;
+		font-family:"Segoe UI","Frutiger Linotype",helvetica,arial,sans-serif;
+	}
+	
+	#warning span {
+		display:block;
+		line-height:300px;		
+	}
+	
+	#warning input {
+		font-size:14pt; margin:0; padding:0.3em 0.7em; border:1px solid #999; border-radius:20px; -moz-border-radius:20px; -webkit-border-radius:20px; background-color:#333; background:-webkit-gradient(linear, left top, left bottom, from(#666), to(#333)) !important; background:-moz-linear-gradient(top, #666, #666, #333) !important; text-shadow: #000 0 1px 0; color:#fff; cursor:pointer;
+	}
+	
+	#warning input:hover {
+		cursor:pointer; background-color:#555; background:-webkit-gradient(linear, left top, left bottom, from(#666), to(#333), color-stop(0.5, #333)) !important; background:-moz-linear-gradient(top, #666, #333, #666) !important;
+	}
+	
+	#manpages {
+		display:none;
+		font-family:monaco,consolas,monospace;
+	}
+	
+	</style>
+
+	<link rel="shortcut icon" href="../../favico.png" type="image/png" />
+
+</head>
+<body>
+
+	<div id="bar">
+		<div class="titlebartext">Aero Smith by Gordon Mei</div>
+		
+		<div id="minimize">
+			<div id="minmark">_</div>
+		</div>
+		
+		<div id="maximize">
+			<div id="maxmarkfaux"><div id="maxmarkfauxinner"></div></div>
+			<!--<span id="maxmark">&#9723;</span>-->
+		</div>
+		
+		<div id="close">
+			<span id="xmark">X</span>
+		</div>
+	
+		<div id="windowframe">
+			<div id="window">
+				<div id="filemenu">
+					<ul>
+						<li class="menuitem">
+							<a href="#">File</a>
+							<ul>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">New</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Open...</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Save</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Save As...</a></li>
+								<li class="divider disabled"><span class="unchecked">&radic;</span><a href="#">Page Setup</a></li>
+								<li id="menuprint"><span class="unchecked">&radic;</span><a href="#">Print</a></li>
+								<li id="menuexit" class="divider"><span class="unchecked">&radic;</span><a href="#">Exit</a></li>												
+							</ul>
+						</li>
+						<li class="menuitem"><a href="#">Edit</a>
+							<ul id="edit">
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Undo</a></li>
+								<li class="divider disabled"><span class="unchecked">&radic;</span><a href="#">Cut</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Copy</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Paste</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Delete</a></li>
+								<li class="divider disabled"><span class="unchecked">&radic;</span><a href="#">Find</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Find Next</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Replace...</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Go To...</a></li>								
+								<li class="divider" id="menuselectall"><span class="unchecked">&radic;</span><a href="#">Select All</a></li>
+								<li id="menutimedate"><span class="checked">&radic;</span><a href="#">Time/Date</a></li>												
+							</ul>
+						</li>
+						<li class="menuitem"><a href="#">Format</a>
+							<ul id="format">
+								<li id="menuwordwrap"><span class="checked">&radic;</span><a href="#">Word Wrap</a></li>
+								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Font...</a></li>
+							</ul>						
+						</li>
+						<li class="menuitem"><a href="#">View</a>
+							<ul id="view">
+								<li id="menustatus"><span class="unchecked">&radic;</span><a href="#">Status Bar</a></li>
+							</ul>
+						</li>
+						<li class="menuitem"><a href="#">Help</a>
+							<ul id="help">
+								<li id="menuhelptopic"><span class="unchecked">&radic;</span><a href="#">Help Topics</a></li>
+								<li class="divider" id="menuhelpabout"><span class="unchecked">&radic;</span><a href="#">About Notepad</a></li>								
+							</ul>						
+						</li>
+					</ul>
+				</div>
+				<div id="textycontained"><!-- class="candywrappers"-->
+					<textarea id="texty"></textarea>
+				</div>
+				<div id="statusbar">
+					Ln 1, Col 1
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div id="sosumi">2010. <a href="http://www.monstercyb.org/gordon/lab">Monstercyb.org</a>. A part of the <a href="http://www.ocf.berkeley.edu/~gordeon">GordeonBleu</a> network.</div>
+
+	<div id="warning">
+		<span id="message">This window would like to close.</span>
+		<input type="submit" value="Allow" id="closeallow" />
+		<input type="reset" value="Deny" id="closedeny" />
+	</div>
+	
+<pre id="manpages">
+AEROSMITH(1)
+
+NAME
+       aerosmith - An enhanced Aero editor for smiths of all trades.
+
+SYNOPSIS
+       aerosmith [OPTIONS] [FILE]...
+
+DESCRIPTION
+       This manual page briefly documents the aerosmith command.
+
+       aerosmith is a small, free and friendly editor which aims to
+       replace Aqua, the Danish-Norwegian editor from the late 1990s.
+
+OPTIONS
+       -? (--help), because everyone knows we all need a little help.
+
+       -B (--breakdance)
+              When saving a file, do a little dance, make a little love,
+              and get down tonight.
+
+       -D (--boldtext)
+              Use on voyages to further the continuing mission: to
+              explore strange new worlds, to seek out new life and new
+              civilizations, to boldly go where no one has gone before.
+
+NOTES
+       From fourth-period French.
+
+BUGS
+       Please send any comments via monstercyb.org/gordon/telegram.
+
+       Please don't spam or abuse.
+
+       Nobody likes that.
+
+HOMEPAGE
+       http://monstercyb.org/gordon/lab
+
+SEE ALSO
+       Abraham Lincoln
+       black holes
+
+AUTHOR
+       Gordon Mei.  Because it seemed like a good idea at the time.
+
+March 17, 2010                       version 1.0.0
+</pre>
+
+	
+	<script type="text/javascript">
+	function collapse() {
+		if (document.getElementById("window").style.display != "none") {
+			document.getElementById("window").style.display = "none";
+		}
+		else {
+			document.getElementById("window").style.display = "block";		
+		}
+	}
+
+	function sizemeup() {
+
+		var bodywidth = 0, bodyheight = 0;
+		if (typeof(window.innerWidth) == "number") {
+			//Non-IE
+			bodywidth = window.innerWidth;
+			bodyheight = window.innerHeight;
+		}
+		else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+			//IE 6+ in standards compliant mode
+			bodywidth = document.documentElement.clientWidth;
+			bodyheight = document.documentElement.clientHeight;
+		}
+		else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+			//IE 4 compatible
+			bodywidth = document.body.clientWidth;
+			bodyheight = document.body.clientHeight;
+		}
+
+		if (document.body.style.width != "100%") {
+			document.getElementById("texty").style.height = bodyheight + "px";
+			document.body.style.width = "100%";
+			document.body.style.marginTop = "0";			
+		}
+		else {
+			document.body.style.width = "760px";
+			document.body.style.marginTop = "2em";
+		}
+	}
+
+	function closingtime() {
+		document.getElementById("warning").style.display = "block";
+	}
+
+	function closingtimeallow() {
+		document.getElementById("message").innerHTML = "I'm sorry, Dave. I'm afraid I can't do that.";
+		window.setTimeout('document.getElementById("warning").style.display = "none"; document.getElementById("message").innerHTML = "This window would like to close.";', 2000);
+	}
+
+	function closingtimedeny() {
+		document.getElementById("message").innerHTML = "Okay then, denied.";
+		window.setTimeout('document.getElementById("warning").style.display = "none"; document.getElementById("message").innerHTML = "This window would like to close.";', 2000);
+	}
+	
+	function abouteh() {
+		document.getElementById("texty").value = "This was written by Gordon Mei on March 17, 2010.";
+	}
+	
+	function naturalselection() {
+		document.getElementById("texty").select();
+	}
+
+	function veryimportantdate() {
+		var now = new Date();
+		var nowminutes;
+		var nowhours;
+		var nowmonth;
+		
+		if(now.getMinutes() < 10) {
+			nowminutes = "0" + now.getMinutes().toString();
+		}
+		else {
+			nowminutes = now.getMinutes().toString();		
+		}
+		
+		if(now.getHours() < 10) {
+			nowhours = "0" + now.getHours().toString();
+		}
+		else {
+			nowhours = now.getHours().toString();
+		}
+		
+		if(now.getMonth() < 10) {
+			nowmonth = "0" + now.getMonth().toString();
+		}
+		else {
+			nowmonth = now.getMonth().toString();
+		}
+		
+		var datetimestamp = now.getFullYear().toString() + "/" + nowmonth + "/" + now.getDate().toString() + ", " + nowhours + ":" + nowminutes;
+		var texty = document.getElementById("texty");
+		texty.value = texty.value + " " + datetimestamp;
+	}
+	
+	function togglestatusbar() {
+		var statusbar = document.getElementById("statusbar");
+		var menustatus = document.getElementById("menustatus");
+		var menuwordwrap = document.getElementById("menuwordwrap");
+		var texty = document.getElementById("texty");
+		//var textycontained = document.getElementById("textycontained");
+		if(statusbar.style.display == "block") {
+			statusbar.style.display = "none";
+			texty.style.marginBottom = "4px";
+			//textycontained.attributes["class"].value = "candywrappers";
+			menustatus.firstChild.attributes["class"].value = "unchecked";
+			menuwordwrap.firstChild.attributes["class"].value = "checked";			
+		}
+		else {
+			statusbar.style.display = "block";
+			texty.style.marginBottom = "0";
+			//textycontained.attributes["class"].value = "nocandywrappers";			
+			menustatus.firstChild.attributes["class"].value = "checked";
+			menuwordwrap.firstChild.attributes["class"].value = "unchecked";			
+		}
+	}
+	
+	function printjam() {
+		window.print();
+	}
+
+	function seemanpages() {
+		var manpages = document.getElementById("manpages");	
+		var texty = document.getElementById("texty");			
+		texty.value = manpages.innerHTML;
+	}
+		
+	
+	var minimize = document.getElementById("minimize");
+	if (minimize.addEventListener) {
+		minimize.addEventListener("click",collapse,false);
+	}
+	else if (minimize.attachEvent) {
+		minimize.attachEvent("onclick",collapse);
+	}
+
+	var maximize = document.getElementById("maximize");
+	if (maximize.addEventListener) {
+		maximize.addEventListener("click",sizemeup,false);
+	}
+	else if (maximize.attachEvent) {
+		maximize.attachEvent("onclick",sizemeup);
+	}
+
+	var close = document.getElementById("close");
+	if (close.addEventListener) {
+		close.addEventListener("click",closingtime,false);
+	}
+	else if (close.attachEvent) {
+		close.attachEvent("onclick",closingtime);
+	}
+
+	var closeallow = document.getElementById("closeallow");
+	if (closeallow.addEventListener) {
+		closeallow.addEventListener("click",closingtimeallow,false);
+	}
+	else if (closeallow.attachEvent) {
+		closeallow.attachEvent("onclick",closingtimeallow);
+	}
+
+	var closedeny = document.getElementById("closedeny");
+	if (closedeny.addEventListener) {
+		closedeny.addEventListener("click",closingtimedeny,false);
+	}
+	else if (closedeny.attachEvent) {
+		closedeny.attachEvent("onclick",closingtimedeny);
+	}
+
+	var menuhelpabout = document.getElementById("menuhelpabout");
+	if (menuhelpabout.addEventListener) {
+		menuhelpabout.addEventListener("click",abouteh,false);
+	}
+	else if (menuhelpabout.attachEvent) {
+		menuhelpabout.attachEvent("onclick",abouteh);
+	}
+
+	var menuselectall = document.getElementById("menuselectall");
+	if (menuselectall.addEventListener) {
+		menuselectall.addEventListener("click",naturalselection,false);
+	}
+	else if (menuselectall.attachEvent) {
+		menuselectall.attachEvent("onclick",naturalselection);
+	}
+	
+	var menutimedate = document.getElementById("menutimedate");
+	if (menutimedate.addEventListener) {
+		menutimedate.addEventListener("click",veryimportantdate,false);
+	}
+	else if (menutimedate.attachEvent) {
+		menutimedate.attachEvent("onclick",veryimportantdate);
+	}
+
+	var menustatus = document.getElementById("menustatus");
+	if (menustatus.addEventListener) {
+		menustatus.addEventListener("click",togglestatusbar,false);
+	}
+	else if (menustatus.attachEvent) {
+		menustatus.attachEvent("onclick",togglestatusbar);
+	}
+
+	var menuexit = document.getElementById("menuexit");
+	if (menuexit.addEventListener) {
+		menuexit.addEventListener("click",closingtime,false);
+	}
+	else if (menuexit.attachEvent) {
+		menuexit.attachEvent("onclick",closingtime);
+	}
+
+	var menuprint = document.getElementById("menuprint");
+	if (menuprint.addEventListener) {
+		menuprint.addEventListener("click",printjam,false);
+	}
+	else if (menuprint.attachEvent) {
+		menuprint.attachEvent("onclick",printjam);
+	}
+
+	var menuhelptopic = document.getElementById("menuhelptopic");
+	if (menuhelptopic.addEventListener) {
+		menuhelptopic.addEventListener("click",seemanpages,false);
+	}
+	else if (menuhelptopic.attachEvent) {
+		menuhelptopic.attachEvent("onclick",seemanpages);
+	}
+	
+	</script>
+	
+	<!--Created: 2010 March 17-->
+
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-299058-9");
+		pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
+
+</body>
+</html>
