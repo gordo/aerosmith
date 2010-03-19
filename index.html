@@ -80,6 +80,8 @@
 		padding-bottom:12px !important;
 		padding-top:0 !important;
 		font-size:18px !important;
+		_line-height:10px;
+		_padding:8px 0 0 0;
 	}
 	
 	#close:hover #xmark, #maximize:hover #maxmark, #minimize:hover #minmark, #xmark:hover, #maxmark:hover, #minmark:hover, #maxmarkfaux:hover {
@@ -97,6 +99,8 @@
 		width:16px;
 		height:16px;
 		border:1px solid #555;
+		_height:8px;
+		_line-height:10px;
 	}
 	
 	#maxmarkfauxinner {
@@ -158,6 +162,7 @@
 		line-height:40px;
 		text-indent:1em;
 		color:#111;
+		*color:#ccc;
 		text-shadow:0 0 5px #fff, 0px 0 5px #fff;
 		vertical-align:middle;
 		-ms-filter:"progid:DXImageTransform.Microsoft.Glow(color=#aaaaaa, strength=3)";
@@ -520,11 +525,12 @@ March 17, 2010                       version 1.0.0
 	
 	<script type="text/javascript">
 	function collapse() {
-		if (document.getElementById("window").style.display != "none") {
-			document.getElementById("window").style.display = "none";
+		var windowel = document.getElementById("window");
+		if (windowel.style.display != "none") {
+			windowel.style.display = "none";
 		}
 		else {
-			document.getElementById("window").style.display = "block";		
+			windowel.style.display = "block";		
 		}
 	}
 
