@@ -426,7 +426,7 @@
 								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Replace...</a></li>
 								<li class="disabled"><span class="unchecked">&radic;</span><a href="#">Go To...</a></li>								
 								<li class="divider" id="menuselectall"><span class="unchecked">&radic;</span><a href="#">Select All</a></li>
-								<li id="menutimedate"><span class="checked">&radic;</span><a href="#">Time/Date</a></li>												
+								<li id="menutimedate"><span class="unchecked">&radic;</span><a href="#">Time/Date</a></li>												
 							</ul>
 						</li>
 						<li class="menuitem"><a href="#">Format</a>
@@ -547,15 +547,26 @@ March 17, 2010                       version 1.0.0
 			bodyheight = document.body.clientHeight;
 		}
 
-		if (document.body.style.width != "100%") {
-			document.getElementById("texty").style.height = bodyheight + "px";
-			document.body.style.width = "100%";
-			document.body.style.marginTop = "0";			
+		//check if previously minimized
+		var windowel = document.getElementById("window");
+		if (windowel.style.display == "none") {
+			windowel.style.display = "block";
 		}
+
+		var texty = document.getElementById("texty");
+		//maximize
+		if (document.body.style.width != "100%") {
+			texty.style.height = bodyheight + "px";
+			document.body.style.width = "100%";
+			document.body.style.marginTop = "0";
+		}
+		//restore from maximize
 		else {
+			texty.style.height = 300 + "px";
 			document.body.style.width = "760px";
 			document.body.style.marginTop = "2em";
 		}
+		
 	}
 
 	function closingtime() {
@@ -643,103 +654,29 @@ March 17, 2010                       version 1.0.0
 		var texty = document.getElementById("texty");			
 		texty.value = manpages.innerHTML;
 	}
-		
 	
-	var minimize = document.getElementById("minimize");
-	if (minimize.addEventListener) {
-		minimize.addEventListener("click",collapse,false);
-	}
-	else if (minimize.attachEvent) {
-		minimize.attachEvent("onclick",collapse);
-	}
-
-	var maximize = document.getElementById("maximize");
-	if (maximize.addEventListener) {
-		maximize.addEventListener("click",sizemeup,false);
-	}
-	else if (maximize.attachEvent) {
-		maximize.attachEvent("onclick",sizemeup);
-	}
-
-	var close = document.getElementById("close");
-	if (close.addEventListener) {
-		close.addEventListener("click",closingtime,false);
-	}
-	else if (close.attachEvent) {
-		close.attachEvent("onclick",closingtime);
-	}
-
-	var closeallow = document.getElementById("closeallow");
-	if (closeallow.addEventListener) {
-		closeallow.addEventListener("click",closingtimeallow,false);
-	}
-	else if (closeallow.attachEvent) {
-		closeallow.attachEvent("onclick",closingtimeallow);
-	}
-
-	var closedeny = document.getElementById("closedeny");
-	if (closedeny.addEventListener) {
-		closedeny.addEventListener("click",closingtimedeny,false);
-	}
-	else if (closedeny.attachEvent) {
-		closedeny.attachEvent("onclick",closingtimedeny);
-	}
-
-	var menuhelpabout = document.getElementById("menuhelpabout");
-	if (menuhelpabout.addEventListener) {
-		menuhelpabout.addEventListener("click",abouteh,false);
-	}
-	else if (menuhelpabout.attachEvent) {
-		menuhelpabout.attachEvent("onclick",abouteh);
-	}
-
-	var menuselectall = document.getElementById("menuselectall");
-	if (menuselectall.addEventListener) {
-		menuselectall.addEventListener("click",naturalselection,false);
-	}
-	else if (menuselectall.attachEvent) {
-		menuselectall.attachEvent("onclick",naturalselection);
+	function crossBrowserEventListen(clickElementId,fnToRunOnClick) {
+		var el = document.getElementById(clickElementId);
+		if (el.addEventListener) {
+			el.addEventListener("click",fnToRunOnClick,false);
+		}
+		else if (el.attachEvent) {
+			el.attachEvent("onclick",fnToRunOnClick);
+		}
 	}
 	
-	var menutimedate = document.getElementById("menutimedate");
-	if (menutimedate.addEventListener) {
-		menutimedate.addEventListener("click",veryimportantdate,false);
-	}
-	else if (menutimedate.attachEvent) {
-		menutimedate.attachEvent("onclick",veryimportantdate);
-	}
-
-	var menustatus = document.getElementById("menustatus");
-	if (menustatus.addEventListener) {
-		menustatus.addEventListener("click",togglestatusbar,false);
-	}
-	else if (menustatus.attachEvent) {
-		menustatus.attachEvent("onclick",togglestatusbar);
-	}
-
-	var menuexit = document.getElementById("menuexit");
-	if (menuexit.addEventListener) {
-		menuexit.addEventListener("click",closingtime,false);
-	}
-	else if (menuexit.attachEvent) {
-		menuexit.attachEvent("onclick",closingtime);
-	}
-
-	var menuprint = document.getElementById("menuprint");
-	if (menuprint.addEventListener) {
-		menuprint.addEventListener("click",printjam,false);
-	}
-	else if (menuprint.attachEvent) {
-		menuprint.attachEvent("onclick",printjam);
-	}
-
-	var menuhelptopic = document.getElementById("menuhelptopic");
-	if (menuhelptopic.addEventListener) {
-		menuhelptopic.addEventListener("click",seemanpages,false);
-	}
-	else if (menuhelptopic.attachEvent) {
-		menuhelptopic.attachEvent("onclick",seemanpages);
-	}
+	crossBrowserEventListen("minimize",collapse);
+	crossBrowserEventListen("maximize",sizemeup);
+	crossBrowserEventListen("close",closingtime);
+	crossBrowserEventListen("closeallow",closingtimeallow);
+	crossBrowserEventListen("closedeny",closingtimedeny);
+	crossBrowserEventListen("menuhelpabout",abouteh);
+	crossBrowserEventListen("menuselectall",naturalselection);
+	crossBrowserEventListen("menutimedate",veryimportantdate);
+	crossBrowserEventListen("menustatus",togglestatusbar);
+	crossBrowserEventListen("menuexit",closingtime);
+	crossBrowserEventListen("menuprint",printjam);
+	crossBrowserEventListen("menuhelptopic",seemanpages);
 	
 	</script>
 	
